@@ -185,8 +185,6 @@ def train(**kwargs):
         # Raw Image
         ##################################
         y_pred, feature_matrix, attention_map = net(X)
-        print(y)
-        print(y_pred)
         # loss
         batch_loss = loss(y_pred, y) + l2_loss(feature_matrix, feature_center[y])
         epoch_loss[0] += batch_loss.item()
