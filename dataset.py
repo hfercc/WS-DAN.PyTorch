@@ -35,7 +35,7 @@ class CustomDataset(Dataset):
     def __init__(self, phase='train', shape=(512, 512)):
         assert phase in ['train', 'val', 'test']
         self.phase = phase
-        self.data_path = os.path.join(config['datapath'], phase, '.txt')
+        self.data_path = os.path.join(config['datapath'], phase + '.txt')
         self.data_list = open(self.data_path).readlines()
 
         self.shape = shape
