@@ -55,7 +55,7 @@ class CustomDataset(Dataset):
 
         if self.phase != 'test':
             # filename of image should have 'id_label.jpg/png' form
-            label = int((self.data_list[item].split('.')[0]))  # label
+            label = int((self.data_list[item].split('.')[0])) - 1  # label
             return image, label
         else:
             # filename of image should have 'id.jpg/png' form, and simply return filename in case of 'test'
