@@ -35,8 +35,8 @@ class CustomDataset(Dataset):
     def __init__(self, phase='train', shape=(512, 512)):
         assert phase in ['train', 'val', 'test']
         self.phase = phase
-        self.data_path = os.path.join(config['datapath'], phase)
-        self.data_list = os.listdir(self.data_path)
+        self.data_path = os.path.join(config['datapath'], phase, '.txt')
+        self.data_list = open(self.data_path).readlines()
 
         self.shape = shape
         self.config = config
@@ -49,13 +49,13 @@ class CustomDataset(Dataset):
         ])
 
     def __getitem__(self, item):
-        image = Image.open(os.path.join(self.data_path, self.data_list[item])).convert('RGB')  # (C, H, W)
+        image = Image.open(os.path.join(self.data_path, self.data_list[item].strip())).convert('RGB')  # (C, H, W)
         image = self.transform(image)
         assert image.size(1) == self.shape[0] and image.size(2) == self.shape[1]
 
         if self.phase != 'test':
             # filename of image should have 'id_label.jpg/png' form
-            label = int((self.data_list[item].split('.')[0]).split('_')[-1])  # label
+            label = int((self.data_list[item].split('.')[0]))  # label
             return image, label
         else:
             # filename of image should have 'id.jpg/png' form, and simply return filename in case of 'test'
