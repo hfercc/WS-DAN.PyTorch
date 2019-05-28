@@ -37,7 +37,7 @@ class CustomDataset(Dataset):
         self.phase = phase
         self.data_path = os.path.join(config['datapath'], phase + '.txt')
         self.data_list = open(self.data_path).readlines()
-
+        self.data_root = config['datapath']
         self.shape = shape
         self.config = config
 
@@ -49,7 +49,7 @@ class CustomDataset(Dataset):
         ])
 
     def __getitem__(self, item):
-        image = Image.open(os.path.join(self.data_path, self.data_list[item].strip())).convert('RGB')  # (C, H, W)
+        image = Image.open(os.path.join(self.data_root, self.data_list[item].strip())).convert('RGB')  # (C, H, W)
         image = self.transform(image)
         assert image.size(1) == self.shape[0] and image.size(2) == self.shape[1]
 
