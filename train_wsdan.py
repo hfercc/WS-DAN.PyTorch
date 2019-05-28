@@ -104,7 +104,7 @@ def main():
     train_dataset, validate_dataset = CustomDataset(phase='train', shape=image_size), \
                                       CustomDataset(phase='val'  , shape=image_size)
 
-    train_loader, validate_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True,
+    train_loader, validate_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=False,
                                                num_workers=options.workers, pin_memory=True), \
                                     DataLoader(validate_dataset, batch_size=options.batch_size * 4, shuffle=False,
                                                num_workers=options.workers, pin_memory=True)
@@ -185,7 +185,8 @@ def train(**kwargs):
         # Raw Image
         ##################################
         y_pred, feature_matrix, attention_map = net(X)
-
+        print(y)
+        print(y_pred)
         # loss
         batch_loss = loss(y_pred, y) + l2_loss(feature_matrix, feature_center[y])
         epoch_loss[0] += batch_loss.item()
