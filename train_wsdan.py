@@ -3,7 +3,7 @@ Created: May 04,2019 - Yuchong Gu
 Revised: May 07,2019 - Yuchong Gu
 """
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+
 import time
 import logging
 import warnings
@@ -41,12 +41,14 @@ def main():
                       help='saving directory of .ckpt models (default: ./models)')
     parser.add_option('--init', '--initial-training', dest='initial_training', default=1, type='int',
                       help='train from 1-beginning or 0-resume training (default: 1)')
+    parser.add_option('--gpu', type="str")
 
     (options, args) = parser.parse_args()
 
     logging.basicConfig(format='%(asctime)s: %(levelname)s: [%(filename)s:%(lineno)d]: %(message)s', level=logging.INFO)
     warnings.filterwarnings("ignore")
 
+    os.environ['CUDA_VISIBLE_DEVICES'] = options.gpu
     ##################################
     # Initialize model
     ##################################
