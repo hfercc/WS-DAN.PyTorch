@@ -12,7 +12,8 @@ __all__ = ['CustomDataset']
 
 config = {
     # e.g. train/val/test set should be located in os.path.join(config['datapath'], 'train/val/test')
-    'datapath': '/raid/sunfangwen/wzh/chanyh/WS-DAN.PyTorch/images/',
+    'image_root': '/raid/sunfangwen/wzh/chanyh/WS-DAN.PyTorch/CUB_200_2011/images/',
+    'dataroot': '/raid/sunfangwen/wzh/chanyh/WS-DAN.PyTorch/CUB_200_2011/'
 }
 
 
@@ -35,9 +36,9 @@ class CustomDataset(Dataset):
     def __init__(self, phase='train', shape=(512, 512)):
         assert phase in ['train', 'val', 'test']
         self.phase = phase
-        self.data_path = os.path.join(config['datapath'], phase + '.txt')
+        self.data_path = os.path.join(config['dataroot'], phase + '.txt')
         self.data_list = open(self.data_path).readlines()
-        self.data_root = config['datapath']
+        self.data_root = config['image_root']
         self.shape = shape
         self.config = config
 
