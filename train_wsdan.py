@@ -99,12 +99,12 @@ def main():
     ##################################
     # Load dataset
     ##################################
-    train_dataset, test_dataset = CustomDataset(phase='train', shape=image_size), \
-                                      CustomDataset(phase='test'  , shape=image_size)
+    train_dataset, validate_dataset = CustomDataset(phase='train', shape=image_size), \
+                                      CustomDataset(phase='val'  , shape=image_size)
 
-    train_loader, test_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True,
+    train_loader, validate_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True,
                                                num_workers=options.workers, pin_memory=True), \
-                                    DataLoader(test_dataset, batch_size=options.batch_size * 4, shuffle=False,
+                                    DataLoader(validate_dataset, batch_size=options.batch_size * 4, shuffle=False,
                                                num_workers=options.workers, pin_memory=True)
 
     optimizer = torch.optim.SGD(net.parameters(), lr=options.lr, momentum=0.9, weight_decay=0.00001)
@@ -121,7 +121,7 @@ def main():
     ##################################
     logging.info('')
     logging.info('Start training: Total epochs: {}, Batch size: {}, Training size: {}, Validation size: {}'.
-                 format(options.epochs, options.batch_size, len(train_dataset), len(test_dataset)))
+                 format(options.epochs, options.batch_size, len(train_dataset), len(validate_dataset)))
 
     for epoch in range(start_epoch, options.epochs):
         train(epoch=epoch,
@@ -133,7 +133,7 @@ def main():
               save_freq=options.save_freq,
               save_dir=options.save_dir,
               verbose=options.verbose)
-        val_loss = validate(data_loader=test_loader,
+        val_loss = validate(data_loader=validate_loader,
                             net=net,
                             loss=loss,
                             verbose=options.verbose)
