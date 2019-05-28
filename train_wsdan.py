@@ -104,7 +104,7 @@ def main():
     train_dataset, validate_dataset = CustomDataset(phase='train', shape=image_size), \
                                       CustomDataset(phase='val'  , shape=image_size)
 
-    train_loader, validate_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=False,
+    train_loader, validate_loader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True,
                                                num_workers=options.workers, pin_memory=True), \
                                     DataLoader(validate_dataset, batch_size=options.batch_size * 4, shuffle=False,
                                                num_workers=options.workers, pin_memory=True)
